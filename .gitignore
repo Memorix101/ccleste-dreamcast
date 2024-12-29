@@ -1,0 +1,8 @@
+
+/.vscode
+celeste-dc.cdi
+*.elf
+*.o
+*.img
+*.log
+*.Identifier

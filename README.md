@@ -17,8 +17,9 @@ A portable Celeste Classic C source port to Sega Dreamcast
 ## Recurring problems
 
 - The sound sometimes crackles
-- Music does not loop and crash (possible kos or dev environment bug)
-
+- ~~Music does not loop and crash (possible kos or dev environment bug)~~
+- Music does not loop exactly
+  
 ## Building
 
 First, you need to setup and configure KallistiOS according to your operating system, you can see that [here](https://dreamcast.wiki/Getting_Started_with_Dreamcast_development)
