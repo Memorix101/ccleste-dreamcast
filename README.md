@@ -8,7 +8,7 @@
 
 # About the project
 
-A portable Celeste Classic C source port to Sega Dreamcast
+A portable Celeste Classic C source port for Sega Dreamcast
 
 https://github.com/user-attachments/assets/352f8d25-406d-4d86-8056-36c393177ab3
 
