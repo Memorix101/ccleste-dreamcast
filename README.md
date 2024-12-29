@@ -1,10 +1,16 @@
 # ccleste-dreamcast
 
-![image](https://github.com/user-attachments/assets/aa154d6b-1b6f-4d66-befe-71da79d00cb6)
+<p align="center">
+<img src="https://github.com/user-attachments/assets/aa154d6b-1b6f-4d66-befe-71da79d00cb6" 
+        alt="celeste on dreamcast" 
+        style="display: block; margin: auto" />
+</p>
 
 # About the project
 
 A portable Celeste Classic C source port to Sega Dreamcast
+
+https://github.com/user-attachments/assets/352f8d25-406d-4d86-8056-36c393177ab3
 
 ## Controls
 
