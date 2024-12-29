@@ -1,11 +1,10 @@
 # ccleste-dreamcast
-A portable Celeste Classic C source port to Sega Dreamcast
 
 ![image](https://github.com/user-attachments/assets/aa154d6b-1b6f-4d66-befe-71da79d00cb6)
 
 # About the project
 
-- Port for SEGA Dreamcast
+A portable Celeste Classic C source port to Sega Dreamcast
 
 ## Controls
 
@@ -41,7 +40,7 @@ cd ~/lmikmod/dc
 
 make
 
-git clone --recursive https://github.com/Memorix101/ccleste-dc
+git clone --recursive https://github.com/Memorix101/ccleste-dreamcast
 
 cd ~/ccelste-dc
 
