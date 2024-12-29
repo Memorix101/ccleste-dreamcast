@@ -1,4 +1,5 @@
 # ccleste-dreamcast
+A portable Celeste Classic C source port to Sega Dreamcast
 
 ![image](https://github.com/user-attachments/assets/3fa2aaf7-6051-4434-b8bd-60516e535a88)
 
