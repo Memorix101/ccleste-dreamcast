@@ -20,6 +20,7 @@ static int SCREEN_HEIGHT;
 #if CELESTE_P8_ENABLE_AUDIO
 #include "SDL_mixer.h" //fake_mixer
 //#include "mixer_ogg.h"
+Mix_Chunk *Mix_LoadWAV(const char *file);
 #endif
 #if SDL_MAJOR_VERSION >= 2
 #include "sdl20compat.inc.c"
@@ -127,7 +128,7 @@ static void RefreshPalette(void)
     for (i = 0; i < SDL_arraysize(map); i++)
     {
         map[i] = SDL_MapRGB(screen->format, palette[i].r, palette[i].g, palette[i].b);
-        //map[i] = SDL_MapRGB(screen->format, palette[i].b, palette[i].g, palette[i].r);
+        // map[i] = SDL_MapRGB(screen->format, palette[i].b, palette[i].g, palette[i].r);
     }
 }
 
@@ -434,6 +435,7 @@ static FILE*      TAS                = NULL;
 
 int main(int argc, char** argv)
 {
+    SDL_setenv("SDL_AUDIODRIVER", "dummy", 1);
     int pico8emu(CELESTE_P8_CALLBACK_TYPE call, ...);
     int videoflag = SDL_SWSURFACE | SDL_ANYFORMAT;
     int initflag  = SDL_INIT_VIDEO;
@@ -442,10 +444,15 @@ int main(int argc, char** argv)
     int i;
     initflag |= SDL_INIT_AUDIO;
 #endif
+#if defined (DREAMCAST)
+SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "1"); 
+SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_TEXTURED_VIDEO");
+#endif
     SDL_CHECK(SDL_Init(initflag) == 0);
 #if SDL_MAJOR_VERSION >= 2 && ! defined (__NGAGE__) && ! defined (NGAGE_DEBUG)
     SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER);
     SDL_GameControllerAddMappingsFromRW(SDL_RWFromFile("gamecontrollerdb.txt", "rb"), 1);
+
 #endif
 #ifdef N3DS_DEBUG
     consoleInit(GFX_BOTTOM, NULL);
@@ -464,6 +471,9 @@ int main(int argc, char** argv)
     SDL_CHECK(screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32, videoflag));
 #elif defined (DREAMCAST)
     printf("DREAMCAST Video\n");
+SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "1"); 
+SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_TEXTURED_VIDEO");    
+
     SDL_CHECK(screen = SDL_SetVideoMode(PICO8_W*scale, PICO8_H*scale, 32, videoflag));
 #else
     printf("ANY\n");
@@ -1731,7 +1741,7 @@ static void ReadGamepadInput(Uint16* out_buttons)
         {
             
             //SDL_Log(">> controller found!");
-            controller = SDL_JoystickOpen(0);
+            controller = (struct _SDL_GameController *)SDL_JoystickOpen(0);
             if (!controller) {
                 SDL_Log("Unable to open joystick: %s", SDL_GetError());
                 return;
@@ -1767,7 +1777,7 @@ for (i = 0; i < sizeof(controller_mappings) / sizeof(*controller_mappings); i++)
 
     // Check if the specific button in the mapping is pressed
     Uint16 xout_buttons = 0;
-    emulate_simple_controller(controller, &xout_buttons);
+    emulate_simple_controller((struct _SDL_Joystick *)controller, &xout_buttons);
 
     // Extract the pressed state for this specific pico8_btn
     pressed = (xout_buttons & (1 << mapping.pico8_btn)) != 0;
