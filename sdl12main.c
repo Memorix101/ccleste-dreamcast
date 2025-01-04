@@ -358,7 +358,7 @@ static void LoadData(void)
         char fname[20];
         char path[4096];
 
-        SDL_snprintf(fname, 20, "mus%i.mp3", id);
+        SDL_snprintf(fname, 20, "mus%i.xm", id);
         LOGLOAD(fname);
         GetDataPath(path, sizeof path, fname);
         mus[id/10] = Mix_LoadMUS(path);

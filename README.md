@@ -22,8 +22,7 @@ https://github.com/user-attachments/assets/352f8d25-406d-4d86-8056-36c393177ab3
 ## Recurring problems
 
 - The sound sometimes crackles
-- ~~Music does not loop and crash (possible kos or dev environment bug)~~
-- Music does not loop exactly
+- Massive slow downs on real hardware with MikMod enabled
   
 ## Building
 
