@@ -18,7 +18,7 @@
 
 // Definition für Mix_Music
 typedef struct {
-    char file_path[256]; // Statische Speicherallokation für den Dateipfad
+    char file_path[256]; 
 } Mix_Music;
 
 
