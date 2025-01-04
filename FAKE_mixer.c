@@ -1,3 +1,4 @@
+#include <kos.h>
 #include "SDL_mixer.h"
 #include "mm.h"
 

@@ -33,7 +33,7 @@ static SDL_Surface *SDL_SetVideoMode(int width, int height, int bpp, Uint32 flag
 #elif defined (__XBOX__)
         sdl2_window = SDL_CreateWindow("", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
 #elif defined (DREAMCAST)
-        sdl2_window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
+        sdl2_window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_FULLSCREEN_DESKTOP);
 #else
         sdl2_window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE);
 #endif
@@ -43,14 +43,12 @@ static SDL_Surface *SDL_SetVideoMode(int width, int height, int bpp, Uint32 flag
         }
 #if defined (__NGAGE__) || defined (NGAGE_DEBUG) || defined (DREAMCAST)
         printf(">> SDL_RENDERER_SOFTWARE\n");
-        //SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "1");
+        SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "1");
+            SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_TEXTURED_VIDEO");  
         SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "software");  
-        SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_DIRECT_VIDEO");
         sdl2_rendr = SDL_CreateRenderer(sdl2_window, -1, SDL_RENDERER_SOFTWARE| SDL_RENDERER_PRESENTVSYNC);
 #else
-        printf(">> SDL_RENDERER_OPENGL\n");
-        //SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "0");
-        SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_DIRECT_VIDEO");
+        //SDL_Log(">> SDL_RENDERER_SOFTWARE");
         sdl2_rendr = SDL_CreateRenderer(sdl2_window, -1, 0);
         SDL_RenderSetLogicalSize(sdl2_rendr, width, height);
 #endif
