@@ -3,8 +3,10 @@
 #define _FAKE_MIXER_H
 
 #include <sound/sfxmgr.h>
-#include <mp3/sndserver.h>
+//#include <mp3/sndserver.h>
 //#include <oggvorbis/sndoggvorbis.h>
+#include <adx/adx.h> // ADX Decoder Library 
+#include <adx/snddrv.h> // Direct Access to Sound Driver 
 #include <SDL2/SDL.h>
 #include "mikmod.h"
 
@@ -20,7 +22,6 @@
 typedef struct {
     char file_path[256]; 
 } Mix_Music;
-
 
 #ifdef __cplusplus
 extern "C" {

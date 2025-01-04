@@ -26,7 +26,7 @@ rm-elf:
 	-rm -f $(TARGET) celeste-dc.cdi romdisk.*
 
 $(TARGET): $(OBJS)
-	kos-c++ -o $(TARGET) $(OBJS) $(OBJEXTRA) -ltremor -lmp3 -lm -lmikmod -lSDL2 -lSDL2main -lGL -lkosutils $(KOS_LIBS) -fno-exceptions -fno-rtti
+	kos-c++ -o $(TARGET) $(OBJS) $(OBJEXTRA) -lADX -lm -lmikmod -lSDL2 -lSDL2main -lGL -lkosutils $(KOS_LIBS) -fno-exceptions -fno-rtti
 	./make_cdi.sh
 
 run: $(TARGET)

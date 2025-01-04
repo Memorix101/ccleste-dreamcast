@@ -41,22 +41,21 @@ static SDL_Surface *SDL_SetVideoMode(int width, int height, int bpp, Uint32 flag
         {
             goto die;
         }
-#if defined (__NGAGE__) || defined (NGAGE_DEBUG) || defined (DREAMCAST)
+#if defined (__NGAGE__) || defined (NGAGE_DEBUG) //|| defined (DREAMCAST)
         printf(">> SDL_RENDERER_SOFTWARE\n");
         //SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "1");
+        //SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "software");  
         SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "software");  
-        SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_DIRECT_VIDEO");
+        SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_TEXTURED_VIDEO");
         sdl2_rendr = SDL_CreateRenderer(sdl2_window, -1, SDL_RENDERER_SOFTWARE| SDL_RENDERER_PRESENTVSYNC);
 #else
         printf(">> SDL_RENDERER_OPENGL\n");
-        //SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "0");
-        SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_DIRECT_VIDEO");
+        SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "0");
+        //SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_DIRECT_VIDEO");
+        SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_TEXTURED_VIDEO");
         sdl2_rendr = SDL_CreateRenderer(sdl2_window, -1, 0);
         SDL_RenderSetLogicalSize(sdl2_rendr, width, height);
 #endif
-
-
-
         if (!sdl2_rendr)
         {
             goto die;
@@ -76,8 +75,8 @@ static SDL_Surface *SDL_SetVideoMode(int width, int height, int bpp, Uint32 flag
         if (format == SDL_PIXELFORMAT_UNKNOWN)
             format = SDL_PIXELFORMAT_RGBA8888; // SDL_PIXELFORMAT_RGBA8888 -> SDL_PIXELFORMAT_RGBA32;
 
-       //SDL_Log(">> sdl2_screen_tex");
-        sdl2_screen_tex = SDL_CreateTexture(sdl2_rendr, format, SDL_TEXTUREACCESS_STREAMING, width, height);
+        //SDL_Log(">> sdl2_screen_tex");
+        sdl2_screen_tex = SDL_CreateTexture(sdl2_rendr, format, SDL_TEXTUREACCESS_STREAMING, width, height); // PICO-8 screen
 
         if (0)
         {
@@ -108,6 +107,7 @@ static SDL_Surface *SDL_SetVideoMode(int width, int height, int bpp, Uint32 flag
 	#elif defined(__PSP__)
     sdl2_screen = SDL_CreateRGBSurfaceWithFormat(0, 256, 256, SDL_BITSPERPIXEL(format), format);
     #else
+    printf(">> SDL_CreateRGBSurfaceWithFormat: %dx%d", width, height);
     sdl2_screen = SDL_CreateRGBSurfaceWithFormat(0, width, height, SDL_BITSPERPIXEL(format), format);
     #endif
     assert(sdl2_screen && sdl2_screen->format->BitsPerPixel == bpp);
@@ -213,9 +213,9 @@ static void SDL_Flip(SDL_Surface* screen)
     SDL_Rect source = { 0, 0, 128, 128 };
     SDL_Rect dest   = { (SCREEN_WIDTH - SCREEN_HEIGHT) / 2, 0, SCREEN_HEIGHT, SCREEN_HEIGHT };
 #elif defined (DREAMCAST)
-    //SDL_Log(">> SDL_Flip");
-    SDL_Rect source = { 0, 0, 512, 512 };
-    SDL_Rect dest   = { (640 - 480) / 2, 10, 460, 460 };
+    //SDL_Log(">> SDL_Flip"); // SDL2 Custom patch values. needs to be fixed 
+    SDL_Rect source = { 0, 0, 128, 128 };
+    SDL_Rect dest   = { (320 - 260) / 2, -125, 240, 250 };
 #endif
 
 /*if (sdl2_screen_tex != NULL) {
@@ -242,13 +242,18 @@ static void SDL_Flip(SDL_Surface* screen)
     //SDL_Log("SDL_UpdateTexture");
     SDL_UpdateTexture(sdl2_screen_tex, NULL, screen->pixels, screen->pitch);
     //SDL_Log("SDL_SetRenderDrawColor");
-    SDL_SetRenderDrawColor(sdl2_rendr, 0, 0, 0, 255);
-#if defined (__NGAGE__) || defined (NGAGE_DEBUG) || defined (__3DS__) || defined (__PSP__) || defined(__XBOX__) //|| defined(DREAMCAST)
+    SDL_SetRenderDrawColor(sdl2_rendr, 255, 0, 0, 255);
+#if defined (__NGAGE__) || defined (NGAGE_DEBUG) || defined (__3DS__) || defined (__PSP__) || defined(__XBOX__) || defined(DREAMCAST)
     //SDL_Log("SDL_RenderCopy - source/dest");
     SDL_RenderCopy(sdl2_rendr, sdl2_screen_tex, &source, &dest);
 #else
     //SDL_Log("SDL_RenderCopy");
-    SDL_RenderCopy(sdl2_rendr, sdl2_screen_tex, NULL, NULL);
+    SDL_Rect* srcRect = { 0, 0, 128, 128};
+    SDL_Rect* dstRect = { 0, 0, 512, 512 };
+    SDL_Point size;
+    SDL_QueryTexture(sdl2_screen_tex, NULL, NULL, &size.x, &size.y);
+    printf("tex-w %d tex-h %d\n", size.x, size.y);
+    SDL_RenderCopy(sdl2_rendr, sdl2_screen_tex, NULL, NULL); // PICO-8 screen
 #endif
     //SDL_Log("SDL_RenderPresent");
     SDL_RenderPresent(sdl2_rendr);

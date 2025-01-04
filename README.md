@@ -23,7 +23,7 @@ https://github.com/user-attachments/assets/352f8d25-406d-4d86-8056-36c393177ab3
 
 - The sound sometimes crackles
 - ~~Music does not loop and crash (possible kos or dev environment bug)~~
-- Music does not loop exactly
+- ~~Music does not loop exactly~~
   
 ## Building
 
@@ -35,7 +35,9 @@ After that, compile using these commands in the terminal
 source /opt/toolchains/dc/kos/environ.sh
 
 git clone --recursive https://github.com/GPF/SDL2
-
+```
+Now take the `SDL_dreamcastvideo.c` from the tools folder and overwrite it in `SDL2/src/videos/dreamcast/` 
+```bash
 cd ~/SDL2/build-scripts
 
 ./dreamcast.sh
@@ -50,7 +52,11 @@ git clone --recursive https://github.com/Memorix101/ccleste-dreamcast
 
 cd ~/ccelste-dc
 
-make  
+chmod 755 ./make_cdi.sh
+
+chmod 755 ./tools/mkdcdisc
+
+make 
 
 ```
 

@@ -41,8 +41,8 @@ int Mix_OpenAudio(int frequency, uint16 format, int channels, int chunksize)
 	snd_stream_init();
     //sndoggvorbis_init();
     //printf("sndoggvorbis_init();  called...\n");
-    mp3_init();
-	printf("mp3_init();  called...\n");
+    //mp3_init();
+	//printf("mp3_init();  called...\n");
 
     if (MikMod_Init("")) {
         printf("Could not initialize sound, reason: %s\n", MikMod_strerror(MikMod_errno));
@@ -252,7 +252,7 @@ int Mix_PlayMusic(Mix_Music *music, int loops) {
     int loop_flag = (loops == -1) ? 1 : 0; // Loop if loops == -1
     printf("Looping: %d\n", loop_flag);
 
-    if (mp3_start((char *)music, loop_flag) < 0) {
+    if (adx_dec((char *)music, loop_flag) < 0) {
         printf("Mix_PlayMusic: Failed to play music.\n");
         return -1;
     }
@@ -262,7 +262,7 @@ int Mix_PlayMusic(Mix_Music *music, int loops) {
 }
 
 Mix_Music *Mix_LoadMUS(const char *file) {
-	printf("Mix_LoadMUS\n");
+	printf("Mix_LoadMUS %s\n", file);
 
     if (!file || strlen(file) >= 256) {
         printf("Mix_LoadMUS: Invalid file or file path too long.\n");
@@ -283,7 +283,7 @@ Mix_Music *Mix_LoadMUS(const char *file) {
 }
 
 int Mix_HaltMusic(void) {
-    mp3_stop();
+    adx_stop();
     printf("Mix_HaltMusic: Music stopped.\n");
     return 0; 
 }

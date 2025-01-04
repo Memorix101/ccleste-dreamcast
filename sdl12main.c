@@ -116,8 +116,8 @@ static Uint32 map[16];
 static void SetPaletteEntry(char idx, char base_idx)
 {
     palette[idx] = base_palette[base_idx];
-    map[idx] = SDL_MapRGB(screen->format, palette[idx].r, palette[idx].g, palette[idx].b);
-    //map[idx] = SDL_MapRGB(screen->format, palette[idx].b, palette[idx].g, palette[idx].r);
+    //map[idx] = SDL_MapRGB(screen->format, palette[idx].r, palette[idx].g, palette[idx].b);
+    map[idx] = SDL_MapRGB(screen->format, palette[idx].b, palette[idx].g, palette[idx].r);
 }
 
 static void RefreshPalette(void)
@@ -126,8 +126,8 @@ static void RefreshPalette(void)
 
     for (i = 0; i < SDL_arraysize(map); i++)
     {
-        map[i] = SDL_MapRGB(screen->format, palette[i].r, palette[i].g, palette[i].b);
-        //map[i] = SDL_MapRGB(screen->format, palette[i].b, palette[i].g, palette[i].r);
+        //map[i] = SDL_MapRGB(screen->format, palette[i].r, palette[i].g, palette[i].b);
+        map[i] = SDL_MapRGB(screen->format, palette[i].b, palette[i].g, palette[i].r);
     }
 }
 
@@ -245,7 +245,7 @@ static void loadbmpscale(char* filename, SDL_Surface** s)
 #include <dc/maple.h>
 #include <dc/maple/controller.h>
 #include <dc/maple/vmu.h>
-#include "vmu.xpm"
+#include "vmu0.xpm"
 int vmu_task = 0; //bool 
 
 /* LCD Test: this will do a grayscale seperation into several "frames" and
@@ -358,7 +358,7 @@ static void LoadData(void)
         char fname[20];
         char path[4096];
 
-        SDL_snprintf(fname, 20, "mus%i.mp3", id);
+        SDL_snprintf(fname, 20, "mus%i.adx", id);
         LOGLOAD(fname);
         GetDataPath(path, sizeof path, fname);
         mus[id/10] = Mix_LoadMUS(path);
