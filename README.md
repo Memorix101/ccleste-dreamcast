@@ -22,7 +22,6 @@ https://github.com/user-attachments/assets/352f8d25-406d-4d86-8056-36c393177ab3
 ## Recurring problems
 
 - The sound sometimes crackles
-- Massive slow downs on real hardware with MikMod enabled
   
 ## Building
 
@@ -48,6 +47,10 @@ make
 git clone --recursive https://github.com/Memorix101/ccleste-dreamcast
 
 cd ~/ccelste-dc
+
+chmod 755 ./make_cdi.sh
+
+chmod 755 ./tools/mkdcdisc
 
 make  
 

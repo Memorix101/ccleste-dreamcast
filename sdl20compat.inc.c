@@ -41,7 +41,7 @@ static SDL_Surface *SDL_SetVideoMode(int width, int height, int bpp, Uint32 flag
         {
             goto die;
         }
-#if defined (__NGAGE__) || defined (NGAGE_DEBUG) || defined (DREAMCAST)
+#if defined (__NGAGE__) || defined (NGAGE_DEBUG) //|| defined (DREAMCAST)
         printf(">> SDL_RENDERER_SOFTWARE\n");
         //SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "1");
         SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "software");  
