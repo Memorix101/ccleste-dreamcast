@@ -41,13 +41,22 @@ static SDL_Surface *SDL_SetVideoMode(int width, int height, int bpp, Uint32 flag
         {
             goto die;
         }
-#if defined (__NGAGE__) || defined (NGAGE_DEBUG)
-        sdl2_rendr = SDL_CreateRenderer(sdl2_window, -1, SDL_RENDERER_SOFTWARE);
+#if defined (__NGAGE__) || defined (NGAGE_DEBUG) || defined (DREAMCAST)
+        printf(">> SDL_RENDERER_SOFTWARE\n");
+        //SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "1");
+        SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "software");  
+        SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_DIRECT_VIDEO");
+        sdl2_rendr = SDL_CreateRenderer(sdl2_window, -1, SDL_RENDERER_SOFTWARE| SDL_RENDERER_PRESENTVSYNC);
 #else
-        //SDL_Log(">> SDL_RENDERER_SOFTWARE");
+        printf(">> SDL_RENDERER_OPENGL\n");
+        //SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "0");
+        SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_DIRECT_VIDEO");
         sdl2_rendr = SDL_CreateRenderer(sdl2_window, -1, 0);
         SDL_RenderSetLogicalSize(sdl2_rendr, width, height);
 #endif
+
+
+
         if (!sdl2_rendr)
         {
             goto die;

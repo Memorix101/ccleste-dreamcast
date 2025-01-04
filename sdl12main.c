@@ -116,8 +116,8 @@ static Uint32 map[16];
 static void SetPaletteEntry(char idx, char base_idx)
 {
     palette[idx] = base_palette[base_idx];
-    //map[idx] = SDL_MapRGB(screen->format, palette[idx].r, palette[idx].g, palette[idx].b);
-    map[idx] = SDL_MapRGB(screen->format, palette[idx].b, palette[idx].g, palette[idx].r);
+    map[idx] = SDL_MapRGB(screen->format, palette[idx].r, palette[idx].g, palette[idx].b);
+    //map[idx] = SDL_MapRGB(screen->format, palette[idx].b, palette[idx].g, palette[idx].r);
 }
 
 static void RefreshPalette(void)
@@ -126,8 +126,8 @@ static void RefreshPalette(void)
 
     for (i = 0; i < SDL_arraysize(map); i++)
     {
-        //map[i] = SDL_MapRGB(screen->format, palette[i].r, palette[i].g, palette[i].b);
-        map[i] = SDL_MapRGB(screen->format, palette[i].b, palette[i].g, palette[i].r);
+        map[i] = SDL_MapRGB(screen->format, palette[i].r, palette[i].g, palette[i].b);
+        //map[i] = SDL_MapRGB(screen->format, palette[i].b, palette[i].g, palette[i].r);
     }
 }
 
@@ -463,7 +463,7 @@ int main(int argc, char** argv)
     printf("__XBOX__\n");
     SDL_CHECK(screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32, videoflag));
 #elif defined (DREAMCAST)
-    printf("DREAMCAST\n");
+    printf("DREAMCAST Video\n");
     SDL_CHECK(screen = SDL_SetVideoMode(PICO8_W*scale, PICO8_H*scale, 32, videoflag));
 #else
     printf("ANY\n");
